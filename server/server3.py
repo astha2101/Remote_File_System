@@ -240,7 +240,7 @@ class Processor(Thread):
                 fp=open(path,"rb");
                 bytes_sent=0
                 chunk_size=4096
-                self.model.file_semaphore[file_name].acquire()
+                self.model.file_semaphore[file_name].acquire()  # applying lock so that no one can delete or update the same file while one user is trying to access it.
                 while bytes_sent<self.model.files_data[file_name]:
                     if(chunk_size>(self.model.files_data[file_name]-bytes_sent)): chunk_size=self.model.files_data[file_name]-bytes_sent
                     to_send=fp.read(chunk_size)
